@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "blog.apps.BlogConfig",
     "rest_framework",
+    "rest_framework_simplejwt",
     "rest_framework.authtoken",
     "allauth",
     "allauth.account",
@@ -134,9 +135,11 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.TokenAuthentication",
-    ]
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        # "rest_framework.authentication.TokenAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
 }
 
 SITE_ID = 1
@@ -162,3 +165,29 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 # EMAIL_HOST_USER = _private_settings.EMAIL_HOST_USER
 # EMAIL_HOST_PASSWORD = _private_settings.EMAIL_HOST_PASSWORD
 # DEFAULT_FROM_EMAIL = _private_settings.DEFAULT_FROM_EMAIL
+
+# JWTAuthentication
+
+# REST_AUTH = {
+#     "USE_JWT": True,
+#     "JWT_AUTH_COOKIE": "jwt-auth",
+# }
+REST_AUTH = {
+    "USE_JWT": True,
+    "JWT_AUTH_HTTPONLY": False,
+    "JWT_AUTH_COOKIE": "my-app-auth",
+    "JWT_AUTH_REFRESH_COOKIE": "my-refresh-token",
+}
+
+# SIMPLE_JWT = {
+#     "ACCESS_TOKEN_LIFETIME": timedelta(days=10),
+#     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
+# }
+
+
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = "none"
+
+
+# AUTH_USER_MODEL = "accounts.CustomUser"
