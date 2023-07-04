@@ -25,6 +25,7 @@ SECRET_KEY = _private_settings.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 ALLOWED_HOSTS = []
 
@@ -140,10 +141,24 @@ REST_FRAMEWORK = {
 
 SITE_ID = 1
 
-EMAIL_BACKEND = _private_settings.EMAIL_BACKEND
-EMAIL_HOST = _private_settings.EMAIL_HOST
-EMAIL_USE_TLS = _private_settings.EMAIL_USE_TLS
-EMAIL_PORT = _private_settings.EMAIL_PORT
-EMAIL_HOST_USER = _private_settings.EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = _private_settings.EMAIL_HOST_PASSWORD
-DEFAULT_FROM_EMAIL = _private_settings.DEFAULT_FROM_EMAIL
+
+#########################################3
+# MAIL SETTINGS
+
+# <EMAIL_CONFIRM_REDIRECT_BASE_URL>/<key>
+EMAIL_CONFIRM_REDIRECT_BASE_URL = "http://localhost:3000/email/confirm/"
+
+# <PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL>/<uidb64>/<token>/
+PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL = (
+    "http://localhost:3000/password-reset/confirm/"
+)
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# EMAIL_BACKEND = _private_settings.EMAIL_BACKEND
+# EMAIL_HOST = _private_settings.EMAIL_HOST
+# EMAIL_USE_TLS = _private_settings.EMAIL_USE_TLS
+# EMAIL_PORT = _private_settings.EMAIL_PORT
+# EMAIL_HOST_USER = _private_settings.EMAIL_HOST_USER
+# EMAIL_HOST_PASSWORD = _private_settings.EMAIL_HOST_PASSWORD
+# DEFAULT_FROM_EMAIL = _private_settings.DEFAULT_FROM_EMAIL
