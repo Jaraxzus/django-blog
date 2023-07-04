@@ -140,12 +140,13 @@ REST_FRAMEWORK = {
         # "rest_framework.authentication.TokenAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
+    "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",),
 }
 
 SITE_ID = 1
 
 
-#########################################3
+########################################
 # MAIL SETTINGS
 
 # Редирект на внешние интерфейсы
@@ -166,6 +167,7 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 # EMAIL_HOST_PASSWORD = _private_settings.EMAIL_HOST_PASSWORD
 # DEFAULT_FROM_EMAIL = _private_settings.DEFAULT_FROM_EMAIL
 
+########################################
 # JWTAuthentication
 
 # REST_AUTH = {
@@ -184,10 +186,18 @@ REST_AUTH = {
 #     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
 # }
 
-
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = "none"
 
-
 # AUTH_USER_MODEL = "accounts.CustomUser"
+
+
+########################################
+# redis
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://localhost:6379/1",
+    }
+}
