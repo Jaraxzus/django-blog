@@ -145,12 +145,12 @@ SITE_ID = 1
 #########################################3
 # MAIL SETTINGS
 
+# Редирект на внешние интерфейсы
 # <EMAIL_CONFIRM_REDIRECT_BASE_URL>/<key>
-EMAIL_CONFIRM_REDIRECT_BASE_URL = "http://localhost:3000/email/confirm/"
-
+EMAIL_CONFIRM_REDIRECT_BASE_URL = "http://localhost:8000/email/confirm/"
 # <PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL>/<uidb64>/<token>/
 PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL = (
-    "http://localhost:3000/password-reset/confirm/"
+    "http://localhost:8000/password-reset/confirm/"
 )
 
 ACCOUNT_EMAIL_REQUIRED = True
