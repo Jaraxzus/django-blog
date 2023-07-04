@@ -21,7 +21,6 @@ class PostViewSet(viewsets.ModelViewSet):
 
     @method_decorator(cache_page(300, key_prefix=CACHE_KEY_PREFIX))
     def list(self, request, *args, **kwargs):
-        print("list works")
         return super().list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):

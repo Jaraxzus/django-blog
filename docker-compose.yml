@@ -1,0 +1,37 @@
+services:
+  django-blog:
+    build: .
+    restart: unless-stopped
+    ports:
+      - 8000:8000
+    depends_on:
+      - blog-db
+      - redis-cache
+    networks:
+      - internet
+      - appnet
+    command: command
+
+  blog-db:
+    image: postgres
+    container_name: postgre-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: example
+    networks:
+      - appnet
+
+  redis-cache:
+    image: redis
+    container_name: blog-cache-redis
+    restart: unless-stopped
+    networks:
+      - appnet
+
+networks:
+  internet:
+    name: internet
+    driver: bridge
+  appnet:
+    name: appnet
+    driver: bridge
