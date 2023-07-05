@@ -3,3 +3,5 @@ __pycache__/
 _private_settings.py
 db.sqlite3
 treash.txt
+.env
+postgres_data

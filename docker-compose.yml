@@ -4,26 +4,26 @@ services:
     restart: unless-stopped
     ports:
       - 8000:8000
+    command: python manage.py runserver 0.0.0.0:8000
     depends_on:
-      - blog-db
-      - redis-cache
+      - db
+      - redis
     networks:
       - internet
       - appnet
-    command: command
 
-  blog-db:
+  db:
     image: postgres
-    container_name: postgre-db
     restart: unless-stopped
     environment:
-      POSTGRES_PASSWORD: example
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data/
     networks:
       - appnet
 
-  redis-cache:
+  redis:
     image: redis
-    container_name: blog-cache-redis
     restart: unless-stopped
     networks:
       - appnet
