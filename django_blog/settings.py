@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from . import _private_settings
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = _private_settings.SECRET_KEY
+# SECRET_KEY = _private_settings.SECRET_KEY
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -85,13 +89,25 @@ WSGI_APPLICATION = "django_blog.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# sqlite3
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
+# PostgreSQL
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "postgres",
+        "USER": "postgres",
+        "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
+        "HOST": "db",
+        "PORT": "5432",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -159,21 +175,16 @@ PASSWORD_RESET_CONFIRM_REDIRECT_BASE_URL = (
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-# EMAIL_BACKEND = _private_settings.EMAIL_BACKEND
-# EMAIL_HOST = _private_settings.EMAIL_HOST
-# EMAIL_USE_TLS = _private_settings.EMAIL_USE_TLS
-# EMAIL_PORT = _private_settings.EMAIL_PORT
-# EMAIL_HOST_USER = _private_settings.EMAIL_HOST_USER
-# EMAIL_HOST_PASSWORD = _private_settings.EMAIL_HOST_PASSWORD
-# DEFAULT_FROM_EMAIL = _private_settings.DEFAULT_FROM_EMAIL
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = os.environ.get("EMAIL_HOST")  # smtp-relay.sendinblue.com
+EMAIL_USE_TLS = False  # False
+EMAIL_PORT = "587"  # 587
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
 
 ########################################
 # JWTAuthentication
-
-# REST_AUTH = {
-#     "USE_JWT": True,
-#     "JWT_AUTH_COOKIE": "jwt-auth",
-# }
 REST_AUTH = {
     "USE_JWT": True,
     "JWT_AUTH_HTTPONLY": False,
@@ -191,13 +202,11 @@ ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = "none"
 
 # AUTH_USER_MODEL = "accounts.CustomUser"
-
-
 ########################################
 # redis
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": "redis://redis/1",
     }
 }

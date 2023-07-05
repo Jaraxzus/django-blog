@@ -1,0 +1,37 @@
+services:
+  django-blog:
+    build: .
+    restart: unless-stopped
+    ports:
+      - 8000:8000
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - db
+      - redis
+    networks:
+      - internet
+      - appnet
+
+  db:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data/
+    networks:
+      - appnet
+
+  redis:
+    image: redis
+    restart: unless-stopped
+    networks:
+      - appnet
+
+networks:
+  internet:
+    name: internet
+    driver: bridge
+  appnet:
+    name: appnet
+    driver: bridge
