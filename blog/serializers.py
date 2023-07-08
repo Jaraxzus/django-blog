@@ -1,30 +1,24 @@
 from rest_framework import serializers
-from .models import Post
+from .models import Post, Comment
 
 
 class PostSerializer(serializers.ModelSerializer):
     author = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    author_username = serializers.ReadOnlyField(source="author.username")
+    author_id = serializers.ReadOnlyField(source="author.id")
 
     class Meta:
         model = Post
-        fields = (
-            "title",
-            "slug",
-            "author",
-            "body",
-            "publish",
-            "created",
-            "update",
-            "status",
-        )
+        fields = "__all__"
         read_only_fields = ["publish", "created", "update"]
 
-    # def create(self, validated_data):
-    #     # post_keys_to_keep = ["title", "slug", "author", "body", "status"]
-    #     # post_data = {
-    #     #     key: validated_data[key]
-    #     #     for key in validated_data.keys()
-    #     #     - (validated_data.keys() - post_keys_to_keep)
-    #     # }
-    #
-    #     return super().create(validated_data)
+
+class CommentSerializer(serializers.ModelSerializer):
+    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    author_username = serializers.ReadOnlyField(source="author.username")
+    author_id = serializers.ReadOnlyField(source="author.id")
+
+    class Meta:
+        model = Comment
+        fields = "__all__"
+        read_only_fields = ["publish", "created"]
